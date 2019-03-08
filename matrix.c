@@ -23,12 +23,15 @@ void matrix_init(Matrix* a, int lines, int columns)
     a->columns = columns;
 }
 
+int multiply_by_2(float scalar) {
+    printf("result: %f\n", scalar*2);
+}
 
 int matrix_scalar_multiply(float scalar, Matrix* a, Matrix* answer) {
     matrix_init(answer, a->lines, a->columns);
     for (int i=0 ;i < answer->lines; i++)
         for (int j=0; j < answer->columns; j++) {
-            printf("i = %d, j = %d, should be %f\n", i,j,*matrix_element(a,i,j)*scalar);
+            printf("i = %d, j = %d, scalar = %f, should be %f\n", i,j,scalar, *matrix_element(a,i,j)*scalar);
             *matrix_element(answer, i,j) = *matrix_element(a,i,j) * scalar;
         }
     return 0;
