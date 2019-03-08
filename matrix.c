@@ -1,8 +1,12 @@
+//Lucas Zanella - 2019
+
 #include "matrix.h"
 
 void matrix_create(Matrix* a, const float *array, int lines, int columns)
 {   
     a->numbers = (float *) malloc(lines*columns);
+    a->lines = lines;
+    a->columns = columns;
     for (int i=0 ;i<a->lines; i++)
         for (int j=0; j<a->columns; j++)
             *(a->numbers+j+i*columns) = *(array+j+i*columns);
@@ -23,20 +27,22 @@ int matrix_init(Matrix* a, int number_of_lines, ...) {
 }
 
 int matrix_scalar_multiply(float scalar, Matrix* a, Matrix* answer) {
-    for (int i=0 ;i < a->lines; i++)
+    printf("hello\n");
+    for (int i=0 ;i < a->lines; i++) {
         for (int j=0; j < a->columns; j++)
-            //printf("%f   ", *(array+j+i*columns));
-            *(a->numbers+j+i*a->columns) = *(a+j+i*a->columns) * scalar;
+            printf("%f   ", *(a->numbers+j+i*a->columns));
+        printf("\n");
+    }
+    printf("\n");
 }
 
-void print_matrix(Matrix* a) {
-    for (int i=0 ;i < a->lines; i++)
-    {
+void matrix_print(Matrix* a) {
+    for (int i=0 ;i < a->lines; i++) {
         for (int j=0; j < a->columns; j++)
-        {
             printf("%f   ", *(a->numbers+j+i*a->columns));
-        }
+        printf("\n");
     }
+    printf("\n");
 }
 
 int matrix_multiply(Matrix* a, Matrix* b, Matrix* answer) {
