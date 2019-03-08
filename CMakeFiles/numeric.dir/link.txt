@@ -1,1 +1,0 @@
-/usr/bin/cc   -rdynamic CMakeFiles/numeric.dir/main.c.o CMakeFiles/numeric.dir/matrix.c.o  -o numeric 
