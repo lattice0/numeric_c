@@ -2,18 +2,24 @@
 
 #include "matrix.h"
 
+
+int multiply_by_2(float scalar) {
+    printf("result: %f\n", scalar*2);
+}
+
+
 float * matrix_element(Matrix *a, int line, int column) {
     return a->numbers+column+line*a->columns;
 }
 
 void matrix_create(Matrix* a, const float *array, int lines, int columns)
 {   
-    a->numbers = (float *) malloc(lines*columns*sizeof(float));
+    a->numbers = (float *) malloc(lines*columns*sizeof(*a->numbers));
     a->lines = lines;
     a->columns = columns;
     for (int i=0 ;i<a->lines; i++)
         for (int j=0; j<a->columns; j++)
-            *matrix_element(a, i,j) = *(array+j+i*columns);
+            *matrix_element(a,i,j) = array[j+i*columns];
 }
 
 void matrix_init(Matrix* a, int lines, int columns)
@@ -23,17 +29,12 @@ void matrix_init(Matrix* a, int lines, int columns)
     a->columns = columns;
 }
 
-int multiply_by_2(float scalar) {
-    printf("result: %f\n", scalar*2);
-}
 
 int matrix_scalar_multiply(float scalar, Matrix* a, Matrix* answer) {
     matrix_init(answer, a->lines, a->columns);
     for (int i=0 ;i < answer->lines; i++)
-        for (int j=0; j < answer->columns; j++) {
-            printf("i = %d, j = %d, scalar = %f, should be %f\n", i,j,scalar, *matrix_element(a,i,j)*scalar);
+        for (int j=0; j < answer->columns; j++)
             *matrix_element(answer, i,j) = *matrix_element(a,i,j) * scalar;
-        }
     return 0;
 }
 
