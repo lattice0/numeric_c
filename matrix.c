@@ -2,39 +2,42 @@
 
 #include "matrix.h"
 
+float * matrix_element(Matrix *a, int line, int column) {
+    return a->numbers+column+line*a->columns;
+}
+
 void matrix_create(Matrix* a, const float *array, int lines, int columns)
 {   
-    a->numbers = (float *) malloc(lines*columns);
+    a->numbers = (float *) malloc(lines*columns*sizeof(float));
     a->lines = lines;
     a->columns = columns;
-    printf("creating matrix with %d lines and %d columns \n", lines, columns);
     for (int i=0 ;i<a->lines; i++)
-        for (int j=0; j<a->columns; j++) {
-            printf("*(a->numbers+ %d ) = %d;\n", j+i*columns, *(array+j+i*columns));
-            *(a->numbers+j+i*columns) = *(array+j+i*columns);
-        }
+        for (int j=0; j<a->columns; j++)
+            *matrix_element(a, i,j) = *(array+j+i*columns);
 }
 
 void matrix_init(Matrix* a, int lines, int columns)
 {   
-    a->numbers = (float *) malloc(lines*columns);
+    a->numbers = (float *) malloc(lines*columns*sizeof(float));
     a->lines = lines;
     a->columns = columns;
 }
 
+
 int matrix_scalar_multiply(float scalar, Matrix* a, Matrix* answer) {
     matrix_init(answer, a->lines, a->columns);
-    for (int i=0 ;i < a->lines; i++)
-        for (int j=0; j < a->columns; j++)
-            break;
-            //*(answer->numbers+j+i*answer->columns) = *(a->numbers+j+i*a->columns) * scalar;
+    for (int i=0 ;i < answer->lines; i++)
+        for (int j=0; j < answer->columns; j++) {
+            printf("i = %d, j = %d, should be %f\n", i,j,*matrix_element(a,i,j)*scalar);
+            *matrix_element(answer, i,j) = *matrix_element(a,i,j) * scalar;
+        }
     return 0;
 }
 
 void matrix_print(Matrix* a) {
     for (int i=0 ;i < a->lines; i++) {
         for (int j=0; j < a->columns; j++)
-            printf("%f   ", *(a->numbers+j+i*a->columns));
+            printf("%f   ",*matrix_element(a,i,j));
         printf("\n");
     }
     printf("\n");
