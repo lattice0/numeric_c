@@ -1,5 +1,7 @@
 //Lucas Zanella - 2019
 #include <stdio.h>
+#define LEN(arr) ((int) (sizeof (arr) / sizeof (arr)[0]))
+#define MATRIX_BEGIN(x, xx) matrix_create(&x, xx, LEN(xx), LEN(xx[0]))
 
 typedef struct Matrix {
     int lines; //number of lines

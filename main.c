@@ -1,16 +1,16 @@
 #include <stdio.h>
 #include "matrix.h"
-
 int main()
 {
-    printf("Hello, World!\n");
     Matrix a;
     Matrix b;
     Matrix c;
     Matrix d;
     Matrix e;
+    //Iniciando a matriz a
     float aa[3][3] = {{1,2,3},{4,5,6},{7,8,9}};
-    matrix_create(&a, aa, 3, 3);
+    MATRIX_BEGIN(a, aa);
+    //
     matrix_print(&a);
     matrix_scalar_multiply(3, &a, &b);
     matrix_print(&b);
@@ -23,6 +23,7 @@ int main()
 
     matrix_wolfram_print(&a);
     matrix_wolfram_print(&b);
+    
 
     return 0;
 }
