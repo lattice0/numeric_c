@@ -51,6 +51,20 @@ int matrix_multiply(Matrix* a, Matrix* b, Matrix* answer) {
 
 }
 
-int matrix_sum(Matrix* a, Matrix* b, Matrix* answer) {
+int matrix_have_equal_dimension(Matrix* a, Matrix* b) {
+    return a->lines==b->lines && a->columns == b->columns;
+}
 
+int matrix_sum(Matrix* a, Matrix* b, Matrix* answer) {
+    if (!matrix_have_equal_dimension(a,b)) {
+        printf("ERROR: matrices don't have the same size\n");
+        matrix_print(a);
+        matrix_print(b);
+        return -1;
+    }
+    matrix_init(answer, a->lines, a->columns);
+    for (int i=0 ;i<answer->lines; i++)
+            for (int j=0; j<answer->columns; j++)
+                *matrix_element(answer,i,j) = *matrix_element(a,i,j) + *matrix_element(b,i,j);
+    return 0;
 }
