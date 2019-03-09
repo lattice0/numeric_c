@@ -7,10 +7,8 @@ int main()
     Matrix c;
     Matrix d;
     Matrix e;
-    //Iniciando a matriz a
     float aa[3][3] = {{1,2,3},{4,5,6},{7,8,9}};
     MATRIX_BEGIN(a, aa);
-    //
     matrix_print(&a);
     matrix_scalar_multiply(3, &a, &b);
     matrix_print(&b);
