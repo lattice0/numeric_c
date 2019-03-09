@@ -3,11 +3,6 @@
 #include "matrix.h"
 
 
-int multiply_by_2(float scalar) {
-    printf("result: %f\n", scalar*2);
-}
-
-
 float * matrix_element(Matrix *a, int line, int column) {
     return a->numbers+column+line*a->columns;
 }
@@ -47,8 +42,41 @@ void matrix_print(Matrix* a) {
     printf("\n");
 }
 
-int matrix_multiply(Matrix* a, Matrix* b, Matrix* answer) {
+void matrix_wolfram_print(Matrix* a) {
+    printf("{");
+    for (int i=0 ;i < a->lines; i++) {
+        printf("{");
+        for (int j=0; j < a->columns; j++)
+            if (j!=a->columns-1){
+                printf("%.2f, ",*matrix_element(a,i,j));
+            } else {
+                printf("%.2f ",*matrix_element(a,i,j));
+            }
+        printf("}");
+        if (i!=a->lines-1) {
+            printf(",");
+            printf("\n");
+        }
+    }
+    printf("}");
+    printf("\n");
 
+}
+
+//Takes the dot product of a line of a by a column of b
+float matrix_dot_product(Matrix* a, Matrix* b, int line, int column) {
+    float answer = 0;
+    for (int k=0; k<b->lines; k++)
+        answer += (*matrix_element(a,line,k))*(*matrix_element(b,k,column));
+}
+
+int matrix_multiply(Matrix* a, Matrix* b, Matrix* answer) {
+    matrix_init(answer, a->lines, b->columns);
+    for (int j=0; j<answer->columns; j++)
+        for (int i=0 ;i<answer->lines; i++) {
+            *matrix_element(answer,i,j) = matrix_dot_product(a, b, i, j);
+        }
+    
 }
 
 int matrix_have_equal_dimension(Matrix* a, Matrix* b) {
