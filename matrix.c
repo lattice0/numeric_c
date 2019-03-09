@@ -68,3 +68,9 @@ int matrix_sum(Matrix* a, Matrix* b, Matrix* answer) {
                 *matrix_element(answer,i,j) = *matrix_element(a,i,j) + *matrix_element(b,i,j);
     return 0;
 }
+
+int matrix_create_identity(int dimension, Matrix* answer) {
+    matrix_init(answer, dimension, dimension);
+    for (int i=0 ;i<dimension; i++)
+        *matrix_element(answer,i,i) = 1;
+}

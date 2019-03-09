@@ -15,3 +15,4 @@ int matrix_scalar_multiply(float scalar, Matrix* a, Matrix* answer);
 void matrix_print(Matrix* a);
 int matrix_multiply(Matrix* a, Matrix* b, Matrix* answer);
 int matrix_sum(Matrix* a, Matrix* b, Matrix* answer);
+int matrix_create_identity(int dimension, Matrix* answer);
