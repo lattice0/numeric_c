@@ -18,9 +18,21 @@ int main()
     matrix_print(&d);
     matrix_multiply(&a,&b,&e);
     matrix_print(&e);
-
     matrix_wolfram_print(&a);
     matrix_wolfram_print(&b);
+
+    Matrix f;
+    Matrix g;
+    Matrix h;
+    float ff[2][3] = {{1,2,3},{4,5,6}};
+    float gg[3][1] = {{1},{2},{3}};
+    MATRIX_BEGIN(f, ff);
+    MATRIX_BEGIN(g, gg);
+    matrix_multiply(&f,&g,&h);
+    matrix_print(&h);
+    matrix_wolfram_print(&f);
+    matrix_wolfram_print(&g);
+
     
 
     return 0;

@@ -68,6 +68,7 @@ float matrix_dot_product(Matrix* a, Matrix* b, int line, int column) {
     float answer = 0;
     for (int k=0; k<b->lines; k++)
         answer += (*matrix_element(a,line,k))*(*matrix_element(b,k,column));
+    return answer;
 }
 
 int matrix_multiply(Matrix* a, Matrix* b, Matrix* answer) {
