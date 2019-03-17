@@ -7,7 +7,7 @@ float * matrix_element(Matrix *a, int line, int column) {
     return a->numbers+column+line*a->columns;
 }
 
-void matrix_create(Matrix* a, const float *array, int lines, int columns)
+void _matrix_create(Matrix* a, const float *array, int lines, int columns)
 {   
     a->numbers = (float *) malloc(lines*columns*sizeof(*a->numbers));
     a->lines = lines;
@@ -23,7 +23,7 @@ void matrix_delete(Matrix* a) {
     a->columns = 0; 
 }
 
-void matrix_init(Matrix* a, int lines, int columns)
+void _matrix_init(Matrix* a, int lines, int columns)
 {   
     a->numbers = (float *) malloc(lines*columns*sizeof(float));
     a->lines = lines;
@@ -32,7 +32,7 @@ void matrix_init(Matrix* a, int lines, int columns)
 
 
 int matrix_scalar_multiply(float scalar, Matrix* a, Matrix* answer) {
-    matrix_init(answer, a->lines, a->columns);
+    _matrix_init(answer, a->lines, a->columns);
     for (int i=0 ;i < answer->lines; i++)
         for (int j=0; j < answer->columns; j++)
             *matrix_element(answer, i,j) = *matrix_element(a,i,j) * scalar;
@@ -95,7 +95,7 @@ float matrix_dot_product(Matrix* a, Matrix* b, int line, int column) {
 }
 
 int matrix_multiply(Matrix* a, Matrix* b, Matrix* answer) {
-    matrix_init(answer, a->lines, b->columns);
+    _matrix_init(answer, a->lines, b->columns);
     for (int j=0; j<answer->columns; j++)
         for (int i=0 ;i<answer->lines; i++) {
             *matrix_element(answer,i,j) = matrix_dot_product(a, b, i, j);
@@ -114,7 +114,7 @@ int matrix_sum(Matrix* a, Matrix* b, Matrix* answer) {
         matrix_print(b);
         return -1;
     }
-    matrix_init(answer, a->lines, a->columns);
+    _matrix_init(answer, a->lines, a->columns);
     for (int i=0 ;i<answer->lines; i++)
             for (int j=0; j<answer->columns; j++)
                 *matrix_element(answer,i,j) = *matrix_element(a,i,j) + *matrix_element(b,i,j);
@@ -122,7 +122,38 @@ int matrix_sum(Matrix* a, Matrix* b, Matrix* answer) {
 }
 
 int matrix_create_identity(int dimension, Matrix* answer) {
-    matrix_init(answer, dimension, dimension);
+    _matrix_init(answer, dimension, dimension);
     for (int i=0 ;i<dimension; i++)
         *matrix_element(answer,i,i) = 1;
+}
+
+int system_create(Matrix* leftMatrix, Matrix* rightMatrix, System * system) {
+    system->leftMatrix = leftMatrix;
+    system->rightMatrix = rightMatrix;
+}
+
+//TODO: return nonzero if something is not right with dimensions
+int _system_get_line(System* system, int line, Matrix* leftLine, float* rightElement) {
+    Matrix* left = system->leftMatrix;
+    Matrix* right = system->rightMatrix;
+    _matrix_init(leftLine, 1, leftLine->columns);
+    for (int j = 0; j<left->columns; j++) {
+        *matrix_element(leftLine, 0, j) = *matrix_element(left, line, j);
+    }
+    *rightElement = *matrix_element(right, line, 0);
+    return 0;
+}
+
+void system_print_line(System* system, int line) {
+    Matrix* leftLine;
+    float * rightElement;
+    _system_get_line(system, line, leftLine, rightElement);
+    matrix_print(leftLine);
+    printf(" = ");
+    printf(rightElement);
+}
+
+//line a = c_1 * line a + c_2 * line b
+void system_sum_line(System * system, int c_1, int a, int c_2, int b) {
+
 }

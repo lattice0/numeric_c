@@ -16,7 +16,7 @@ int main()
     matrix_print(&b);
     matrix_sum(&a,&b,&c);
     matrix_print(&c);
-    matrix_create_identity(5,&d);
+    _matrix_create_identity(5,&d);
     matrix_print(&d);
     matrix_multiply(&a,&b,&e);
     matrix_print(&e);
