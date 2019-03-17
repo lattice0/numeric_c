@@ -18,3 +18,5 @@ int     matrix_multiply(Matrix* a, Matrix* b, Matrix* answer);
 int     matrix_sum(Matrix* a, Matrix* b, Matrix* answer);
 int     matrix_create_identity(int dimension, Matrix* answer);
 void    matrix_wolfram_print(Matrix* a);
+void    matrix_latex_print(Matrix* a);
+void    matrix_delete(Matrix* a);

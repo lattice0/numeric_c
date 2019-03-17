@@ -17,6 +17,12 @@ void matrix_create(Matrix* a, const float *array, int lines, int columns)
             *matrix_element(a,i,j) = array[j+i*columns];
 }
 
+void matrix_delete(Matrix* a) {
+    free(a->numbers);
+    a->lines = 0;
+    a->columns = 0; 
+}
+
 void matrix_init(Matrix* a, int lines, int columns)
 {   
     a->numbers = (float *) malloc(lines*columns*sizeof(float));
@@ -60,7 +66,24 @@ void matrix_wolfram_print(Matrix* a) {
     }
     printf("}");
     printf("\n");
+}
 
+void matrix_latex_print(Matrix* a) {
+    printf("\\begin{bmatrix}\n");
+    for (int i=0 ;i < a->lines; i++) {
+        for (int j=0; j < a->columns; j++) {
+            if (j!=a->columns-1) {
+                printf("%f & ",*matrix_element(a,i,j));
+            } else {
+                printf("%f  ",*matrix_element(a,i,j));
+                if (i!= a->lines -1)
+                    printf("\\\\");
+            }
+        }
+        printf("\n");
+    }
+    printf("\\end{bmatrix}");
+    printf("\n");
 }
 
 //Takes the dot product of a line of a by a column of b

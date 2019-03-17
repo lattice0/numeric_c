@@ -3,12 +3,14 @@
 int main()
 {
     Matrix a;
+    float aa[3][3] = {{1,2,3},{4,5,6},{7,8,9}};
+    MATRIX_BEGIN(a, aa);
+    /*
     Matrix b;
     Matrix c;
     Matrix d;
     Matrix e;
-    float aa[3][3] = {{1,2,3},{4,5,6},{7,8,9}};
-    MATRIX_BEGIN(a, aa);
+
     matrix_print(&a);
     matrix_scalar_multiply(3, &a, &b);
     matrix_print(&b);
@@ -32,6 +34,8 @@ int main()
     matrix_print(&h);
     matrix_wolfram_print(&f);
     matrix_wolfram_print(&g);
+    */
+    matrix_latex_print(&a);
 
     
 
