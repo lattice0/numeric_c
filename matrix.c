@@ -1,13 +1,14 @@
 //Lucas Zanella - 2019
 
 #include "matrix.h"
+#include "utils.h"
 
 
 float * matrix_element(Matrix *a, int line, int column) {
     return a->numbers+column+line*a->columns;
 }
 
-void _matrix_create(Matrix* a, const float *array, int lines, int columns)
+void matrix_create(Matrix* a, const float *array, int lines, int columns)
 {   
     a->numbers = (float *) malloc(lines*columns*sizeof(*a->numbers));
     a->lines = lines;
@@ -47,6 +48,34 @@ void matrix_print(Matrix* a) {
     }
     printf("\n");
 }
+/*
+char* _matrix_wolfram_print(Matrix* a) {
+    char * result = "";
+    //printf("{");
+    result = concat(result, "{");
+    for (int i=0 ;i < a->lines; i++) {
+        result = concat(result, "{");
+        for (int j=0; j < a->columns; j++)
+            if (j!=a->columns-1){
+                //printf("%.2f, ",*matrix_element(a,i,j));
+                result = concat(result, (char *)matrix_element(a,i,j));
+                result = concat(result, ",");
+            } else {
+                //printf("%.2f ",*matrix_element(a,i,j));
+                result = concat(result, (char *)matrix_element(a,i,j));
+            }
+        result = concat(result, "}");
+        if (i!=a->lines-1) {
+            //printf(",");
+            result = concat(result, ",");
+            result = concat(result, "\n");
+        }
+    }
+    result = concat(result, "}");
+    result = concat(result, "\n");
+    return result;
+}
+*/
 
 void matrix_wolfram_print(Matrix* a) {
     printf("{");
@@ -132,28 +161,53 @@ int system_create(Matrix* leftMatrix, Matrix* rightMatrix, System * system) {
     system->rightMatrix = rightMatrix;
 }
 
+void system_latex_print(System* system) {
+    matrix_latex_print(system->leftMatrix);
+    printf("\\begin{bmatrix}\n");
+    for (int i = 0; i<system->leftMatrix->columns; i++) {
+        if (i!=system->leftMatrix->columns) 
+            printf("x_{%d}\\\\",i);
+        else 
+            printf("x_{%d}",i);
+    }
+    printf("\\end{bmatrix}\n");
+    printf(" = ");
+    matrix_latex_print(system->rightMatrix);
+}
+
 //TODO: return nonzero if something is not right with dimensions
 int _system_get_line(System* system, int line, Matrix* leftLine, float* rightElement) {
-    Matrix* left = system->leftMatrix;
-    Matrix* right = system->rightMatrix;
-    _matrix_init(leftLine, 1, leftLine->columns);
-    for (int j = 0; j<left->columns; j++) {
-        *matrix_element(leftLine, 0, j) = *matrix_element(left, line, j);
+    //Matrix left = system->leftMatrix;
+    //Matrix right = system->rightMatrix;
+    //printf("139");
+    //Initiate leftLine as a vector
+    //_matrix_init(leftLine, left->columns, 1);     //VECTOR_BEGIN(leftLine, left->columns);
+    //printf("141");
+    for (int j = 0; j < system->leftMatrix->columns; j++) {
+        *matrix_element(leftLine, j, 0) = *matrix_element(system->leftMatrix, line, j);
     }
-    *rightElement = *matrix_element(right, line, 0);
+    *rightElement = *matrix_element(system->rightMatrix, line, 0);
     return 0;
 }
 
+
 void system_print_line(System* system, int line) {
-    Matrix* leftLine;
-    float * rightElement;
-    _system_get_line(system, line, leftLine, rightElement);
-    matrix_print(leftLine);
-    printf(" = ");
-    printf(rightElement);
+    Matrix leftLine;
+    _matrix_init(&leftLine, system->leftMatrix->columns, 1); //Initiates a vector
+    float rightElement;
+    _system_get_line(system, line, &leftLine, &rightElement);
+    matrix_print(&leftLine);
+    printf(" = \n");
+    printf("%f",rightElement);
+    printf("\n");
 }
 
 //line a = c_1 * line a + c_2 * line b
 void system_sum_line(System * system, int c_1, int a, int c_2, int b) {
+    for (int j = 0; j<system->leftMatrix->columns; j++) 
+        *matrix_element(system->leftMatrix,a,j) = 
+            c_1*(*matrix_element(system->leftMatrix,a,j)) + c_2*(*matrix_element(system->leftMatrix,b,j));    
 
+    *matrix_element(system->rightMatrix,a,0) = 
+        c_1*(*matrix_element(system->rightMatrix,a,0)) + c_2*(*matrix_element(system->rightMatrix,b,0));
 }

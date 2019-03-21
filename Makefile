@@ -177,6 +177,33 @@ matrix.c.s:
 	$(MAKE) -f CMakeFiles/numeric.dir/build.make CMakeFiles/numeric.dir/matrix.c.s
 .PHONY : matrix.c.s
 
+utils.o: utils.c.o
+
+.PHONY : utils.o
+
+# target to build an object file
+utils.c.o:
+	$(MAKE) -f CMakeFiles/numeric.dir/build.make CMakeFiles/numeric.dir/utils.c.o
+.PHONY : utils.c.o
+
+utils.i: utils.c.i
+
+.PHONY : utils.i
+
+# target to preprocess a source file
+utils.c.i:
+	$(MAKE) -f CMakeFiles/numeric.dir/build.make CMakeFiles/numeric.dir/utils.c.i
+.PHONY : utils.c.i
+
+utils.s: utils.c.s
+
+.PHONY : utils.s
+
+# target to generate assembly for a file
+utils.c.s:
+	$(MAKE) -f CMakeFiles/numeric.dir/build.make CMakeFiles/numeric.dir/utils.c.s
+.PHONY : utils.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -192,6 +219,9 @@ help:
 	@echo "... matrix.o"
 	@echo "... matrix.i"
 	@echo "... matrix.s"
+	@echo "... utils.o"
+	@echo "... utils.i"
+	@echo "... utils.s"
 .PHONY : help
 
 
